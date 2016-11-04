@@ -28,6 +28,18 @@
 
 (defn flush? [hand]
   (= 1 (count (set (map :suit hand)))))
+
+(defn straight? [hand]
+  (let [[min-value :as sorted] (sort (map second hand))]
+    (= sorted
+       (take 4 (iterate inc min-value)))))
+       
+
+(defn straight-flush? [hand]
+  (set (map :suit hand)))
+
+(defn two-pair? [hand])
+  
   
 
 (defn -main [& args]
