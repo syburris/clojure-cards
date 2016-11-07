@@ -19,32 +19,30 @@
           c4 (disj deck c1 c2 c3)]
       #{c1 c2 c3 c4})))
 
-(def test-hand #{{:suit :spades :rank 1}
-                 {:suit :spades :rank 2}
-                 {:suit :spades :rank 3}
-                 {:suit :spades :rank 4}})
+(def test-hand #{{:suit :diamonds :rank 1}
+                 {:suit :hearts :rank 1}
+                 {:suit :clubs :rank 3}
+                 {:suit :spades :rank 3}})
 
 
 
 (defn flush? [hand]
   (= 1 (count (set (map :suit hand)))))
 
-(defn straight? [hand]
-  (let [[min-value :as sorted] (sort (map second hand))]
-    (= sorted
-       (take 4 (iterate inc min-value)))))
+(defn four-of-a-kind? [hand]
+  (= 1 (count (set (map :rank hand)))))
+
+(defn three-of-a-kind? [hand]
+  (= 2 (count (set (map :rank hand)))))
+
+(defn two-pair? [hand]
+  (= '(2 2) (vals (frequencies (map :rank hand)))))
+  
        
-
-(defn straight-flush? [hand]
-  (set (map :suit hand)))
-
-(defn two-pair? [hand])
-  
-  
 
 (defn -main [& args]
   (let [deck (create-deck)
         hands (create-hands deck)
-        hands (filter flush? hands)]
+        hands (filter two-pair? hands)]
     (println (count hands))))
 
